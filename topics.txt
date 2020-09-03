@@ -5,5 +5,9 @@
     * Urban and Jakubuv, First Neural Conjecturing Datasets and Experiments
 * Topology
     * https://bastian.rieck.me/blog/posts/2020/icml_topology_roundup/#fnref:1
+* Theory
+    * Statistical learning theory: https://www.youtube.com/playlist?list=PLyGKBDfnk-iAtLO6oLW4swMiQGz4f2OPY
 * General
     * https://bastian.rieck.me/blog/posts/2019/new_in_ml/
+* Engineering
+    * PyTorch performance: https://www.youtube.com/watch?v=9mS1fIYj1So
