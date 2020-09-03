@@ -7,3 +7,5 @@
     * https://bastian.rieck.me/blog/posts/2020/icml_topology_roundup/#fnref:1
 * General
     * https://bastian.rieck.me/blog/posts/2019/new_in_ml/
+* Engineering
+    * Gradient descent with Go?
