@@ -1,0 +1,2 @@
+* Forward-backward Algorithm (Norvig)
+* Lipschitz continuity (Abbott)
