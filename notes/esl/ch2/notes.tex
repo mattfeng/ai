@@ -1,0 +1,38 @@
+\documentclass{article}
+
+\usepackage[backend=biber,style=authoryear-icomp]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{geometry}
+\usepackage{amsthm}
+
+% remove the annoying italics from definitions
+\newtheorem{definition}{Definition}
+\let\olddefinition\definition
+\renewcommand{\definition}{\olddefinition\normalfont}
+
+\title{
+  Notes from {\bf Elements of Statistical Learning}\\
+  Chapter 2: Overview of Supervised Learning\\
+}
+\author{Matthew Feng}
+\date{September 8, 2020 (updated: \today)}
+
+\begin{document}
+\maketitle
+
+\section{Definitions}
+
+\begin{definition}
+  \textbf{inputs} (statistics: \textbf{predictors}, pattern recognition:
+  \textbf{features}, classic: \textbf{independent variables}), are the
+  variables that are measured or preset.
+\end{definition}
+
+\begin{definition}
+  \textbf{outputs} are the \textbf{responses}, classically called
+  \textbf{dependent variables}.
+\end{definition}
+
+
+\end{document}

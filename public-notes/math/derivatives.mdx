@@ -1,0 +1,24 @@
+---
+title: Derivatives in machine learning
+date: 2020-09-10
+slug: math/derivatives
+---
+
+$\gdef\vx{\mathbf{\vec{x}}}$
+$\gdef\ve{\mathbf{\vec{\epsilon}}}$
+$\gdef\ll#1{\lVert#1\rVert}$
+
+## Definitions
+
+**Banach spaces.** vector spaces that are complete and normed.
+
+## Fréchet derivative
+
+## Scalar to scalar: $\mathbb{R} \rightarrow \mathbb{R}$
+- $f(x+\epsilon) = f(x) + f'(x)\epsilon + o(\epsilon)$ is stating: &ldquo;We can locally approximate the function $f(x)$ around $x$ as a line with slope $f'(x)$.&rdquo;
+- Note that $o(x)$ is Landau notation; an example is $x^2 = o(x)$ as $x \rightarrow 0$.
+
+## Vector to scalar: $\mathbb{R}^n \rightarrow \mathbb{R}$
+- $f(\vx + \ve) = f(\vx) + \nabla_\vx f(\vx)^\top\ve + o(\ll{\vx})$
+
+For a generic element of a vector space, _linear functionals_ are given by the **inner product** with a vector from that space.

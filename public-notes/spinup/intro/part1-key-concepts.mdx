@@ -1,0 +1,142 @@
+---
+title: "Part 1: Key concepts in RL"
+date: 2020-09-14
+slug: part1-key-concepts
+---
+
+$\gdef\E#1{\underset{#1}{\mathbb{E}}}$
+$\gdef\A{\mathcal{A}}$
+$\gdef\S{\mathcal{S}}$
+$\gdef\dpt{\mu_\theta}$
+$\gdef\spt{\pi_\theta}$
+$\gdef\dpp{\mu_\phi}$
+$\gdef\spp{\pi_\phi}$
+$\gdef\cs{s_t}$       <!-- current state -->
+$\gdef\ca{a_t}$       <!-- current action -->
+$\gdef\ns{s_{t+1}}$   <!-- next state -->
+$\gdef\ret{R(\tau)}$  <!-- return -->
+$\gdef\infsum{\sum_{t=0}^\infty}$
+$\gdef\optpi{\pi^*}$
+$\gdef\Max#1{\underset{#1}{\max\,}}$
+
+**Reinforcement learning (RL)** is the study of _agents_ and how they _learn by trial and error_.
+
+## Terminology
+
+Cumulative **reward** is called the **return**. The goal of the agent is to maximize its **return**.
+
+**State** $s$ is _a complete description of the world_ (no information is hidden from the state). An **observation** $o$ is a partial description of a state, which may (and often does) omit information.
+
+The _set of all valid actions in a given environment_ is called the **action space** $\A$. Some algorithms can work on both **continuous** and **discrete** **action spaces**, while some need to be adapted significantly to work on the other paradigm.
+
+A **policy** is the rule used by an **agent** to decide what action to take. **Deterministic policies** are denoted $a_t = \mu(s_t)$, whereas **stochastic policies** are denoted $a_t \sim \pi(\cdot | s_t)$.
+
+Policies _whose outputs computable functions depending on a set of parameters_ are called **parameterized policies**. Parameters are usually denoted with $\theta$ or $\phi$, and paramterized policies as $\dpt(s_t)$, $\dpp(s_t)$ or $\spt(\cdot | s_t)$, $\spp(\cdot | s_t)$.
+
+The two most common kinds of **stochastic policies** are **categorical policies** (discrete action spaces) and **diagonal Gaussian policies** (continuous action spaces).
+  - Training stochastic policies relies on _two central calculations_:
+    - **sampling actions** from the policy, and
+    - **computing log-likelihoods** of particular actions, $\log \spt(a|s)$.
+  - A **diagonal Gaussian policy** is described by a **mean vector** $\mu$ and **covariance matrix** $\Sigma$.
+    - The mean vector is calculated by a neural network mapping observations to mean actions $\mu_\theta(s)$.
+    - The **covariance matrix** can be trainable parameters ($\log \sigma$) that are _not_ a function of state, or the output of a neural network mapping observations to log standard deviations ($\log \sigma_\theta(s)$).
+
+A **trajectory** $\tau$ (also called an **episode** or **rollout**) is a sequence of states and actions in the world, $\tau = (s_0, a_0, s_1, a_1, ...)$. _Note that $\tau$ is actually a graphical model (a Bayesian network) encapsulated in a single variable._
+
+The first state of the world $s_0$ is randomly sampled from the **start-state distribution** $\rho_0$, i.e. $s_0 \sim \rho_0(\cdot)$.
+
+The next state $\ns$ is governed by the rules of the environment and depend only on the most recent action (Markov property), i.e. $\ns \sim P(\cdot | \cs, \ca)$.
+
+The **reward function** $R(\cs, \ca, \ns)$ is a function of the current state, current action, and next state, though it is often simplified to only depend on the current state and action, i.e. $r_t = R(\cs, \ca)$.
+
+Return (cumulative reward) is notated $R(\tau)$, and can mean one of two kinds of return:
+  - **finite-horizon undiscounted return**, $\ret = \sum_{t=0}^T r_t$.
+  - **infinite-horizon discounted** (discount factor = $\gamma$) **return**, $\ret = \infsum {\gamma^t r_t}$.
+
+
+## The definition of the RL problem
+
+The probability of a **trajectory** $\tau$ is given by
+
+$$
+P(\tau | \pi) = \rho_0(s_0) \prod_{t=0}^{T-1}P(\ns|\cs, \ca)\pi(\ca|\cs).
+$$
+
+We can then express the **expected return** $J(\pi)$ as[^expectation]
+
+$$
+J(\pi) = \underset{\text{all possible } \tau}{\int} P(\tau | \pi) R(\tau) d\tau = \E{\tau \sim \pi}[R(\tau)].
+$$
+
+The _central optimization problem in RL_ is thus finding the **optimal policy** $\optpi$,
+
+$$
+\optpi = \arg \max_\pi J(\pi).
+$$
+
+To solve this optimization problem, we define the **value of a state or state-action pair** to be the _expected return if you start in that state or state-action pair, and then follow a particular policy forever after._
+
+There are _four_ **value functions** to know:
+1. **On-policy value function, $V^\pi(s)$.**
+
+$$
+V^\pi(s) = \E{\tau \sim \pi}[R(\tau) | s_0 = s]
+$$
+
+2. **On-policy action-value function, $Q^\pi(s, a)$.**
+
+$$
+Q^\pi(s, a) = \E{\tau \sim \pi}[R(\tau) | s_0 = s, a_0 = a]
+$$
+
+3. **Optimal value function, $V^*(s)$.**
+
+$$
+V^*(s) = \underset{\pi}{\max} \E{\tau \sim \pi}[R(\tau) | s_0 = s]
+$$
+
+4. **Optimal action-value function, $Q^*(s, a)$.**
+
+$$
+Q^*(s, a) = \underset{\pi}{\max} \E{\tau \sim \pi}[R(\tau) | s_0 = s, a_0 = a]
+$$
+
+Value functions _without reference to time-dependence_ must be **infinite-horizon discounted return**. Values functions for **finite-horizon undiscounted return** need time as an argument.
+
+## Bellman equations
+
+The **value functions** have to obey special self-consistency equations known as the **Bellman equations** (i.e. the value functions actually are a system of equations).
+
+### Bellman equations for _on-policy value functions_
+
+$$
+V^\pi(s) = \E{a \sim \pi(\cdot | s), s' \sim P(\cdot | s, a)}[R(s, a) + \gamma V^\pi(s')]
+$$
+
+$$
+Q^\pi(s, a) = \E{s' \sim P(\cdot | s, a)}[R(s, a) + \gamma \E{a' \sim \pi(\cdot | s')}[Q^\pi(s', a')]]
+$$
+
+### Bellman equations for _optimal value functions_
+
+$$
+V^*(s) = \Max{a} \E{s' \sim P(\cdot | s, a)} [R(s, a) + \gamma V^*(s')]
+$$
+
+$$
+Q^*(s, a) = \E{s' \sim P(\cdot | s, a)} [R(s, a) + \gamma \Max{a'} Q^*(s', a')]
+$$
+
+Note that **all four Bellman equations** are expectations over the **stochastic environment**.
+
+The **optimal value functions** take the **max** over actions, while the **on-policy value functions** take the **expectation** over actions **with respect to the policy $\pi$**.
+
+The term **Bellman backup** refers to the _right side of the Bellman equation_.
+
+When we only care about relative value, we can use the **advantage function**, defined as
+
+$$
+A^\pi(s, a) = Q^\pi(s, a) - V^\pi(s).
+$$
+
+[^expectation]: _Subscript notation in expectations._ ([original](https://stats.stackexchange.com/questions/72613/subscript-notation-in-expectations), [archive](https://archive.is/SPvyM))

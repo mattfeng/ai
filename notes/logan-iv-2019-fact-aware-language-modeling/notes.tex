@@ -1,0 +1,73 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+
+\usepackage{enumitem}
+\setlist[itemize,enumerate]{noitemsep}
+
+\newtheorem{definition}{Definition}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\KG}{\mathcal{KG}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\obs}{{<t}}
+\newcommand{\related}{\text{related}}
+\newcommand{\new}{\text{new}}
+\newcommand{\noent}{\emptyset}
+
+\title{
+  Notes on {\it Barack's wife Hilary: Using Knowledge Graphs for Fact-Aware
+  Language Modeling}
+}
+\author{
+  Matthew Feng
+}
+
+\begin{document}
+\maketitle
+
+\section{Article info}
+\paragraph{Authors} Robert L. Logan IV, Nelson F. Liu, Matthew E. Peters,
+Matt Gardner, Sameer Singh
+
+\section{Notes}
+
+\subsection{Big ideas}
+\begin{itemize}
+  \item KGLM has mechanisms for {\it selecting and copying facts} from
+    a knowledge graph that are relevant to the context.
+  \item Introduce the {\bf Linked WikiText-2 dataset}
+  \item The KGLM has a {\it dynamically growing local knowledge graph},
+    a subset of the actual knowledge graph.
+\end{itemize}
+
+\subsection{Additional readings}
+\begin{enumerate}
+  \item AWD-LSTM (Merity et al. 2018)
+  \item
+\end{enumerate}
+
+\subsection{Details}
+
+\begin{definition}
+  A {\bf knowledge graph} is a directed, labeled graph with entities
+  $\E$ as nodes, and relations $\R$ as edge labels.
+  $\KG$ = $\{(p, r, e) | p \in \E, r \in \R, e \in \E\}$.
+
+  Practical knowledge graphs have other characteristics:
+  \begin{itemize}
+    \item some relations are literal values
+    \item facts may be expressed as properties on relations
+    \item entities have {\it aliases}
+  \end{itemize}
+\end{definition}
+
+
+\paragraph{Goal} Compute $p(x_t, \E_t | x_\obs, \E_\obs)$
+
+\subsubsection{Generative algorithm}
+\begin{enumerate}
+  \item Decide the type of $x_t$, denoted $t_t$, where
+    $t_t \in \{\related, \new, \noent\}$.
+\end{enumerate}
+
+\end{document}
