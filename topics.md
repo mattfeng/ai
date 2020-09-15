@@ -10,4 +10,5 @@
 * General
     * https://bastian.rieck.me/blog/posts/2019/new_in_ml/
 * Engineering
+    * Gradient descent with Go?
     * PyTorch performance: https://www.youtube.com/watch?v=9mS1fIYj1So
