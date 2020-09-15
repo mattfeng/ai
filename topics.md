@@ -1,4 +1,4 @@
-* Natural language processing and logical reasoning
+- Natural language processing and logical reasoning
     * https://research.google/people/ChristianSzegedy/
     * https://arxiv.org/pdf/1909.11851.pdf
     * https://arxiv.org/pdf/2005.14165.pdf
