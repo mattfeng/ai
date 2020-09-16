@@ -1,0 +1,40 @@
+---
+title: Overview of MCTS
+date: 2020-09-15
+slug: alphazero/mcts
+---
+
+**Monte Carlo Tree Search (MCTS)** is a method for making optimal decisions in artificial intelligence problems, typically move planning in combinatorial games. It combines the _generality of random simulation_ with the _precision of tree search_.[^about]
+
+MCTS can theoretically be applied to _any domain_ that can be described in terms of $(\text{state}, \text{action})$ pairs and _uses simulation_ to forecast outcomes.
+
+## The basic algorithm
+
+Build a search tree (node by node) according to the outcomes of simulated playouts.
+
+1. **Selection.** Starting at root node $R$, recursively select **optimal child nodes** until a leaf node $L$ is reached.
+2. **Expansion.** If $L$ is not a **terminal node** (i.e. the game is not over), then create one or more child nodes and select one called $C$.
+3. **Simulation.** Run a simulated playout from $C$ until a result is achieved.
+4. **Backpropagation.** Update the current move sequence with the simulation result.
+
+A **node** must contain:
+1. a value estimate $v_i$ based on simulation results
+2. the number of times $n_i$ the node has been visited
+
+The **optimal child node** is usually selected using the **Upper Confidence Bound** formula ($C$ is a tunable parameter, $N$ is the total number of times that the child's parent has been visited):
+
+$$
+v_i + C\sqrt{\frac{\ln N}{n_i}}
+$$
+
+## Benefits
+- _Aheuristic._ the algorithm does not rely on domain knowledge.
+- _Asymmetric._ the algorithm adapts to the topology of the search space.
+- _Anytime._ the algorithm can be halted at anytime the current best estimate.
+- _Elegant._ the algorithm is simple to implement.
+
+## Drawbacks
+- _Weak playing strength._ In its basic form, MCTS can fail to find reasonble moves for medium complexity games within a reasonable amount of time.
+- _Slow convergence._ MCTS requires many rollouts to converge to a good solution.
+
+[^about]: mcts.ai, _What is MCTS?_ ([archive.org](https://web.archive.org/web/20180623055344/http://mcts.ai/about/index.html))
