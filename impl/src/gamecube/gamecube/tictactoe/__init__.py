@@ -2,6 +2,6 @@
 
 __all__ = ["game"]
 
-from .game import TicTacToeGame
+from .game import TicTacToe
 
 
