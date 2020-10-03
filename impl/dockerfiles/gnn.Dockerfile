@@ -24,6 +24,7 @@ RUN git clone https://github.com/lambdalisue/jupyter-vim-binding \
 
 # enable notebook extensions
 RUN jupyter nbextension enable vim_binding/vim_binding
+RUN jupyter nbextension enable freeze/main
 
 RUN mkdir /nb
 WORKDIR /nb
