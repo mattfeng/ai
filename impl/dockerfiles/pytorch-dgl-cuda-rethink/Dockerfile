@@ -13,7 +13,7 @@ RUN pip install                           \
     jupyter numpy scipy matplotlib        \
     scikit-learn sympy                    \
     jupyter_contrib_nbextensions          \
-    torch dgl-cu102 wandb
+    torch dgl-cu102 rethinkdb
 
 RUN jupyter contrib nbextension install
 

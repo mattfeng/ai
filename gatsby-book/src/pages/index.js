@@ -44,7 +44,7 @@ query {
       order: ASC,
       fields: [
         frontmatter___key,
-        frontmatter___subkey
+        frontmatter___subkey,
       ]
   }) {
     edges {

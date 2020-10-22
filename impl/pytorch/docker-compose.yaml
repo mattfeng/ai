@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  notebook:
+    image: notebook:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/nb
+
