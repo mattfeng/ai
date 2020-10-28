@@ -13,7 +13,7 @@ RUN pip install                           \
     jupyter numpy scipy matplotlib        \
     scikit-learn sympy                    \
     jupyter_contrib_nbextensions          \
-    torch dgl-cu102
+    torch dgl-cu102 rethinkdb
 
 RUN jupyter contrib nbextension install
 
@@ -24,6 +24,7 @@ RUN git clone https://github.com/lambdalisue/jupyter-vim-binding \
 
 # enable notebook extensions
 RUN jupyter nbextension enable vim_binding/vim_binding
+RUN jupyter nbextension enable freeze/main
 
 RUN mkdir /nb
 WORKDIR /nb

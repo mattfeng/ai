@@ -1,0 +1,25 @@
+---
+title: Conjugate gradient method
+date: 2020-09-16
+slug: math/cg
+key: 1
+subkey: 1
+---
+
+Source: https://pwacker.com/CG.html
+
+$\gdef\T#1{{#1^\top}}$
+$\gdef\vx{\vec{x}}$
+$\gdef\vb{\vec{b}}$
+$\gdef\vc{\vec{c}}$
+
+## Introduction
+
+Conjugate gradient has been used for:
+- Solving a sparse linear system of equations $A\vx=b$ where $A \in \R^{n
+\times n}$, symmetric and positive definite.
+- Minimizing a quadratic function $f(x) = \frac{1}{2}\T{\vx}A\vx - \T{\vb}\vx + \vc$
+- Minimizing a function $f: \R^n \rightarrow \R$.
+
+## Important notation
+- Error and residual do not point the same direction.
